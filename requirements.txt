@@ -1,0 +1,6 @@
+pytest
+git+https://github.com/pre63/black.git
+isort
+pybind11
+setuptools
+datasets
