@@ -147,3 +147,26 @@ def test_paper_example_multi_repeats():
   matching_repeat2 = [r for r in repeats if docs[r.doc_idx][r.start : r.start + r.len] == repeat2]
   assert len(matching_repeat1) == 0
   assert len(matching_repeat2) == 0
+
+
+def test_word_based_simple():
+  docs = ["hello world hello", "world hello world"]
+  repeats = supermaxrep.find_supermaximal_repeats_docs(docs, min_len=1, min_occ=2, mode="word")
+  assert len(repeats) > 0
+  texts = {r.text for r in repeats}
+  assert "hello world" in texts
+  assert "world hello" in texts
+
+
+def test_word_based_paper_example1():
+  repeat_words = "At length the breathless hunter came so nigh his seemingly unsuspecting prey that his entire dazzling hump was distinctly visible sliding along the sea as if an isolated thing and continually set in a revolving ring of finest fleecy greenish foam He saw the vast involved wrinkles of the slig".split()
+  repeat_str = " ".join(repeat_words)
+  doc1 = "Prefix text. " + repeat_str + " Suffix text one."
+  doc2 = "Another prefix! " + repeat_str + " Another suffix."
+  docs = [doc1, doc2]
+  repeats = supermaxrep.find_supermaximal_repeats_docs(docs, min_len=len(repeat_words), min_occ=2, mode="word")
+  assert len(repeats) >= 1
+  found_lengths = {r.len for r in repeats}
+  assert len(repeat_words) in found_lengths
+  matching_repeats = [r for r in repeats if r.text == repeat_str]
+  assert len(matching_repeats) == 1
