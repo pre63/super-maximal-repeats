@@ -55,7 +55,7 @@ def test_performance_multi_docs_word():
   print(f"Loaded {len(docs)} documents with total {total_words} words (approx).")
 
   start_time = time.time()
-  repeats = supermaxrep.find_supermaximal_repeats_docs(docs, min_len=5, min_occ=3, mode="word")
+  repeats = supermaxrep.find_supermaximal_repeats_docs(docs, min_len=3, min_occ=2, mode="word")
   end_time = time.time()
 
   duration = end_time - start_time
